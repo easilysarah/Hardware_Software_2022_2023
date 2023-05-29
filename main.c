@@ -10,27 +10,32 @@
 #include "led.h"
 #include "dipsw_pio.h"
 #include "key_pio.h"
-//#include "pio_reg_in.h"
-//#include "pio_reg_out.h"
-//#include "pio_reg_inout.h"
+#include "pio_reg_in.h"
+#include "pio_reg_out.h"
+#include "pio_reg_inout.h"
 #include "led_gpio.h"
 #include "key_gpio.h"
 #include "driver.h"
 
-int main(int argc, char **argv) {
+int main() {
 	MMAP_open();
-	//LEDR_setup();
-	//DIPSW_setup();
-	//KEY_PIO_setup();
-	//LED_gpio_setup();
-	//KEY_gpio_setup();
 	DRIVER_setup();
 
 	while(1) {
         unsigned int pio_reg_out;
 		char c;
-        printf ("write pio_reg_out\n");//on demande en console d'entrer un caractère
-        scanf("%c",&c); //on récupère un caractère
+        printf ("write pio_reg_out\n");//on demande en console d'entrer un caractï¿½re
+        scanf(" %c",&c); //on rï¿½cupï¿½re un caractï¿½re
+        //Pour mettre en binaire
+        int i;
+        int bit;
+        printf("ReprÃ©sentation binaire de c = ");
+        for (i = 7; i >= 0; i--) {
+            bit = (c >> i) & 1;
+            printf("%d",bit);
+        }
+        printf("\n");
+        //envoyer bit ï¿½ la place de c
         DRIVER_out_write_data(c);
 	}
 	MMAP_close();
