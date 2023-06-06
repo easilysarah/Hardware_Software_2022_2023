@@ -12,5 +12,5 @@ La membre Hardware gère les I/O choisies et implémentées via 'Platform Design
 La partie Software a pour mission de modifier le fichier Main.c, qui est le code envoyé sur le processeur, et donc de  permettre l'encodage du caractère à envoyer, son affichage en caractère et en binaire, et l'envoi des données binaires vers le Hardware. Le membre Software gère également la connection du processeur à l'ordinateur,l'envoi des programmes nécessaires et assure le bon fonctionnement de tout cela.
 
 
-Une vidéo explicative complète se trouve à l'aresse suivante : 
+Une vidéo explicative complète se trouve à l'aresse suivante : https://youtu.be/y-rHkHiGqUc
 Bon visionnage ! 
