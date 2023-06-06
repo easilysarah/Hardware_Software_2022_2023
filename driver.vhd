@@ -15,7 +15,7 @@ entity driver is
 	   -- Input ports
 		CLK	: in  std_logic;
 		RST	: in  std_logic;
-		from_pio_reg_out : in std_logic_vector(7 downto 0); -- Registre où sont enregistrés les 8 bits d'un caractère (provient du software)
+		from_pio_reg_out : in std_logic_vector(7 downto 0); -- Registre où sont enregistres les 8 bits d'un caractere (provient du software)
 		--from_pio_reg_inout	: in std_logic_vector(7 downto 0);
 		from_pio_reg_inout	: in std_logic_vector(7 downto 0);
 		--from_GPIO_0_0_inout	: in std_logic;
@@ -59,9 +59,9 @@ begin
 			case state is
 			
 				when s0=>
-						to_gpio_1_0_out <= '1';  --état par défaut d'attente
-					if from_pio_reg_inout(0) = '1' then -- Quand la valeur de ce registre est mis à 1 par le software, l'hardware peut commencer à envoyer
-						to_gpio_1_0_out <= '0'; -- bit start - On envoie à l'esclave un 0 pour leur dire qu'on va commencer à envoyer
+						to_gpio_1_0_out <= '1';  -- Waiting state
+					if from_pio_reg_inout(0) = '1' then -- When this value is put to 1 by the software, the hardware begins to send the bits
+						to_gpio_1_0_out <= '0'; -- bit start - We send a 0 to the slave to let them know that we begin to send the bits
 						count := 0;
 						index := 0;
 						Tran <= from_pio_reg_out(7 downto 0);
@@ -71,35 +71,35 @@ begin
 					end if;		
 					
 				--when s1=>
-				--	if count = p2 then --cette été sert à attendre p2
+				--	if count = p2 then -- This state waits for p2
 				--		count := 0;
 				--		index := 0;
 				--		state <= s2;
 				--	else
 				--		count := count + 1;
 				--		state <= s1;
-				--	end if; -- On reste bloqué à l'état 1 jusqu'au moment où on aura attendu p2 
+				--	end if; -- The state is blocked to state 1 until we have waited p2
 					
 				when s2=>
-					if index = 8 then -- Cela veut dire qu'on a envoyé tous nos bits d'informations 
-						--to_gpio_1_0_out <= '1'; -- On envoie un 1 (0) à l'esclave pour lui dire que la transmission du premier caractère est terminée
+					if index = 8 then -- It means that we have sent all the bits of information 
+						--to_gpio_1_0_out <= '1'; -- We send a 1 to the slave to let him know that the transmission of the first character is done
 						--count :=0;
 						index := 0;
 						state <= s3;
 					else
-						if count = p then                                        -- C'est dans cette partie que nos 8 bits d'informations seront envoyés un par un
-							to_gpio_1_0_out <= Tran(7-index);        -- De cette manière, on envoie bit à bit
-							count := 0;                                           -- On remet le count à 0 
+						if count = p then                                        -- Here we send the eight bits of information
+							to_gpio_1_0_out <= Tran(7-index);        -- We send bit to bit
+							count := 0;                                           -- We put the count to 0 
 							index := index + 1; 
 						else
-							count := count + 1;                                   -- On reste dans le s2 et on va augmenter le count jusqu'à atteindre à nouveau p pour renvoyer un bit
+							count := count + 1;                                   
 						end if;
-						state <= s2;                                             -- exit state 2. (don't forget to put channel at '1' again before to leave)
+						state <= s2;                                             -- exit state 2
 					end if;
 					
 				when s3=>
-					if count = p then --on attend p
-					to_gpio_1_0_out <= '1';--un 1 pour dire
+					if count = p then 
+					to_gpio_1_0_out <= '1';
 					state <= s0;
 					else
 					--to_gpio_1_0_out <= '1';
