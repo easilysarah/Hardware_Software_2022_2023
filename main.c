@@ -33,7 +33,7 @@ int main() {
             printf("%d",bit);
         }
         printf("\n");
-        //envoyer bit � la place de c
+
         DRIVER_out_write_data(c);
 	}
 	MMAP_close();
