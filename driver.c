@@ -40,8 +40,8 @@ void write_pio_reg_out( unsigned int pio_reg_out ) {
 }
 //FONCTION PRINCIPALE
 void DRIVER_out_write_data( unsigned int data ) {
-    write_pio_reg_out(data);//on met les données dans le registre pio_reg_out
-	write_pio_reg_inout(1);//on met à 1 le registre pi_reg_inout pour dire au hardware que les données ont été placées dans le registre
+    write_pio_reg_out(data);
+	write_pio_reg_inout(1);
 	sleep(0.0001042);
 	write_pio_reg_inout(0);
 	sleep(1);
